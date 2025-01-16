@@ -1,0 +1,3 @@
+[submodule "solana-starter/turbin3-2025"]
+	path = solana-starter/turbin3-2025
+	url = https://github.com/dorkydhruv/turbin3-2025.git
