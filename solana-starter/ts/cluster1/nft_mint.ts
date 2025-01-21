@@ -40,3 +40,9 @@ const mint = generateSigner(umi);
 
   console.log("Mint Address: ", mint.publicKey);
 })();
+
+///
+// Succesfully Minted! Check out your TX here:
+// https://explorer.solana.com/tx/2nHi5oFgpPGDcU4exJd9tYJznkNLb8daQjVYUuLf3jeXm2QYGXw3vSbS66DArkCw8ZGc5FEJ55bjPndNvofuJ3AF?cluster=devnet
+// Mint Address:  9iWL85fSEqfRpDWg41JjJP1TWyKzMRe9UTUDkCu7tmc4
+///
