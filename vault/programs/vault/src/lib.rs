@@ -7,7 +7,7 @@ pub mod vault {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        Initialize::initialize(ctx)
+        ctx.accounts.initialize(&ctx.bumps)
     }
 
     pub fn deposit(ctx: Context<Payments>, amount: u64) -> Result<()> {
@@ -41,10 +41,10 @@ pub struct Initialize<'info> {
 }
 
 impl<'info> Initialize<'info> {
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        let vault_state = &mut ctx.accounts.vault_state;
-        vault_state.state_bump = ctx.bumps.vault_state;
-        vault_state.vault_bump = ctx.bumps.vault;
+    pub fn initialize(&mut self, bump: &InitializeBumps) -> Result<()> {
+        let vault_state = &mut self.vault_state;
+        vault_state.state_bump = bump.vault_state;
+        vault_state.vault_bump = bump.vault;
         Ok(())
     }
 }
