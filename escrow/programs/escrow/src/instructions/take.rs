@@ -1,7 +1,15 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{
     associated_token::AssociatedToken,
-    token_interface::{ Mint, TokenAccount, TransferChecked, transfer_checked, TokenInterface },
+    token_interface::{
+        transfer_checked,
+        Mint,
+        TokenAccount,
+        TokenInterface,
+        TransferChecked,
+        close_account,
+        CloseAccount,
+    },
 };
 use crate::state::EscrowState;
 
@@ -9,9 +17,10 @@ use crate::state::EscrowState;
 pub struct Take<'info> {
     #[account(mut)]
     pub taker: Signer<'info>,
-    #[account(mut)]
+    #[account(address = escrow.maker)]
     pub maker: SystemAccount<'info>,
     pub mint_a: InterfaceAccount<'info, Mint>,
+    #[account(address = escrow.mint_b)]
     pub mint_b: InterfaceAccount<'info, Mint>,
     #[account(
         init_if_needed,
@@ -26,12 +35,6 @@ pub struct Take<'info> {
         associated_token::authority = taker,
     )]
     pub taker_mint_b_ata: InterfaceAccount<'info, TokenAccount>,
-    #[account(
-        mut,
-        associated_token::mint = mint_a,
-        associated_token::authority = maker,
-    )]
-    pub maker_mint_a_ata: InterfaceAccount<'info, TokenAccount>,
     // the payer shouldn't be taker here I guess?
     #[account(
         init_if_needed,
@@ -41,6 +44,11 @@ pub struct Take<'info> {
     )]
     pub maker_mint_b_ata: InterfaceAccount<'info, TokenAccount>,
     #[account(
+        mut,
+        has_one = maker,
+        has_one = mint_b,
+        has_one = mint_a,
+        close = taker,
         seeds = [b"escrow", maker.key().as_ref(), escrow.seed.to_le_bytes().as_ref()],
         bump = escrow.bump
     )]
@@ -90,6 +98,26 @@ impl<'info> Take<'info> {
         ];
         let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, seeds);
         transfer_checked(cpi_ctx, deposit_amount, self.mint_a.decimals)?;
+        Ok(())
+    }
+
+    pub fn close_vault(&mut self) -> Result<()> {
+        let cpi_program = self.token_program.to_account_info();
+        let cpi_account = CloseAccount {
+            account: self.vault.to_account_info(),
+            destination: self.taker.to_account_info(),
+            authority: self.escrow.to_account_info(),
+        };
+        let seeds: &[&[&[u8]]] = &[
+            &[
+                b"escrow",
+                self.maker.key.as_ref(),
+                &self.escrow.seed.to_le_bytes(),
+                &[self.escrow.bump],
+            ],
+        ];
+        let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_account, seeds);
+        close_account(cpi_ctx)?;
         Ok(())
     }
 }
