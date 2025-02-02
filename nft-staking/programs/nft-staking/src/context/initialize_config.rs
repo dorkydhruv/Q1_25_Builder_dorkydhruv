@@ -17,12 +17,12 @@ pub struct InitializeConfig<'info> {
     )]
     pub config: Account<'info, StakeConfig>,
     #[account(
-        init,
+        init_if_needed,
         payer = admin,
-        seeds = [b"reward".as_ref(), config.key().as_ref()],
+        seeds = [b"rewards".as_ref(), config.key().as_ref()],
         bump,
         mint::decimals = 6,
-        mint::authority = admin
+        mint::authority = config
     )]
     pub rewards_mint: Account<'info, Mint>,
 

@@ -37,7 +37,12 @@ pub struct Stake<'info> {
     )]
     pub metadata: Account<'info, MetadataAccount>,
     #[account(
-        seeds = [b"metadata".as_ref(), metadata_program.key().as_ref(), mint.key().as_ref()],
+        seeds = [
+            b"metadata".as_ref(),
+            metadata_program.key().as_ref(),
+            mint.key().as_ref(),
+            b"edition".as_ref(),
+        ],
         seeds::program = metadata_program.key(),
         bump
     )]

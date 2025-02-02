@@ -23,4 +23,16 @@ pub mod nft_staking {
     pub fn initialize_user(ctx: Context<InitializeUser>) -> Result<()> {
         ctx.accounts.initialize_user(ctx.bumps)
     }
+
+    pub fn stake(ctx: Context<Stake>) -> Result<()> {
+        ctx.accounts.stake(&ctx.bumps)
+    }
+
+    pub fn unstake(ctx: Context<Unstake>) -> Result<()> {
+        ctx.accounts.unstake()
+    }
+
+    pub fn claim_rewards(ctx: Context<Claim>) -> Result<()> {
+        ctx.accounts.claim_reward()
+    }
 }
