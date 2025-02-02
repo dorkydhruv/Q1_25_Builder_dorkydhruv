@@ -1,5 +1,4 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token_interface::{ Mint, TokenInterface };
 use crate::state::MarketPlace;
 use crate::error::MarketplaceError;
 #[derive(Accounts)]
@@ -17,16 +16,6 @@ pub struct Initialize<'info> {
     pub marketplace: Account<'info, MarketPlace>,
     #[account(seeds = [b"treasury", marketplace.key().as_ref()], bump)]
     pub treasury: SystemAccount<'info>,
-    #[account(
-        init,
-        payer = admin,
-        seeds = [b"rewards", marketplace.key().as_ref()],
-        bump,
-        mint::authority = marketplace,
-        mint::decimals = 6
-    )]
-    pub rewards_mint: InterfaceAccount<'info, Mint>,
-    pub token_program: Interface<'info, TokenInterface>,
     pub system_program: Program<'info, System>,
 }
 
@@ -38,7 +27,6 @@ impl<'info> Initialize<'info> {
             fee,
             bump: bumps.marketplace,
             treasury_bump: bumps.treasury,
-            rewards_bump: bumps.rewards_mint,
             name,
         });
         Ok(())

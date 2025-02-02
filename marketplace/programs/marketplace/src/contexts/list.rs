@@ -5,7 +5,7 @@ use anchor_spl::{
     token_interface::{ transfer_checked, Mint, TokenAccount, TokenInterface, TransferChecked },
 };
 
-use crate::state::{ listing::Listing, MarketPlace };
+use crate::state::{ Listing, MarketPlace };
 
 #[derive(Accounts)]
 pub struct List<'info> {

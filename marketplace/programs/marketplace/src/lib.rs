@@ -24,4 +24,10 @@ pub mod marketplace {
         ctx.accounts.refund_nft()?;
         ctx.accounts.close_vault()
     }
+
+    pub fn purchase(ctx: Context<Purchase>) -> Result<()> {
+        ctx.accounts.transfer_sol()?;
+        ctx.accounts.transfer_nft()?;
+        ctx.accounts.close_listing()
+    }
 }
