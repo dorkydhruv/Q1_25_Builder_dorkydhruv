@@ -12,7 +12,7 @@ use anchor_spl::{
     },
 };
 
-use crate::state::{ listing::Listing, MarketPlace };
+use crate::state::{ Listing, MarketPlace };
 
 #[derive(Accounts)]
 pub struct Delist<'info> {
