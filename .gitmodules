@@ -1,3 +1,3 @@
-[submodule "turbin3-2025"]
-	path = turbin3-2025
-	url = https://github.com/dorkydhruv/turbin3-2025.git
+[submodule "dmandate"]
+	path = dmandate
+	url = git@github.com:dorkydhruv/dmandate.git
