@@ -32,4 +32,4 @@ Feel free to explore each project's individual README (if there is one XD) for s
 
 DMANDATE is a Solana-based protocol for decentralized recurring payments. Users pre-approve a PDA to transfer tokens (e.g., USDC) without locking funds. A backend processes payments at scheduled intervals, ensuring self-custody and transparency. Ideal for subscriptions, salaries, and bills, DMANDATE offers a trustless, non-custodial alternative to traditional e-mandates.
 
-![REPO](https://github.com/dorkydhruv/dmandate)
+[REPO](https://github.com/dorkydhruv/dmandate)
